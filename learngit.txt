@@ -44,5 +44,11 @@ git log --graph 可以看到分支合并图
 推送分支，把该分支上所有本地提交推送到远程库:git push origin master，若要推送其他分支，比如skr，则git push origin skr
 假设多人协作远程库有master和skr分支，当在另一台电脑上从远程库克隆后只能看到本地的master分支。若要在skr分支上开发，就必须创建origin的skr分支到本地:git checkout -b origin/skr ;对同一文件的修改提交会产生冲突，可以先用git pull把最新的提交从origin/skr上抓下来，在本地合并，从而解决冲突;单单的git pull不能解决问题，因为没有指定本地skr分支与远程origin/skr的链接，设置链接:git branch --set-upstream-to=origin/skr skr ;git pull成功后，手动修改冲突再push
 ---rebase变基---
-rebase的特点：把分支的提交历史“整理”成一条直线，看上去更直观，缺点是本地的分叉提交已经被修改过了。rebase可以把本地未push的分叉提交历史整理成直线，使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比(unclear)
+rebase的特点：把分支的提交历史“整理”成一条直线，看上去更直观，缺点是本地的分叉提交已经被修改过了。rebase可以把本地未push的分叉提交历史整理成直线，使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比
+learngitbranching上对rebase的解释:rebase实际上就是取出一系列的提交记录，“复制”他们，然后在另外一个地方逐个的放下去，优势就是可以创造更线性的提交记录。如果之允许使用rebase的话，代码库的提交历史将会变得异常清晰。
+---撤销变更---
+git reset 回到上一个提交
+git revert 建立一个新的提交来撤销当前提交，
+
+高级1:git branch -f master another;git rebase side;git rebase bugFix;git rebase c2
 
