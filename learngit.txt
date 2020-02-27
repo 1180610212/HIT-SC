@@ -51,4 +51,14 @@ git reset 回到上一个提交
 git revert 建立一个新的提交来撤销当前提交，
 
 高级1:git branch -f master another;git rebase side;git rebase bugFix;git rebase c2
-
+---标签---
+与用commitid来查找文件的方式相比，tag查找更方便。tag就是一个让人容易记住的有意义的名字，它跟某个commit绑定在一起
+给一个commit打标签:git tag <label> <commitid>；无commitid默认为HEAD
+查看标签:git tag，标签按字母排序
+查看标签信息、说明文字:git show <label>
+创建带有说明的标签:用-a制定标签名，-m制定说明文字,git tag -a <label> -m <message> <commitid>
+标签总是和某个commit挂钩，如果这个commit既出现在master分支，又出现在skr分支，则两分支上都可以看到这个标签
+删除标签:git tag -d <label> 因为创建的标签都只存储在本地，不会自动推送到远程，所以打错的标签可以在本地安全删除
+推送某个标签到远程:git push origin <label>
+一次性推送全部尚未推送到远程的本地标签:git push origiin --tags
+若标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除:git tag -d <label>,then git push origin :refs/tags/<label>
