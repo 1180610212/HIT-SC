@@ -2,7 +2,7 @@
 ---
 
 #Cmd Markdown 公式指导手册
-
+> 点击跳转至 [固定地址]（https://www.zybuluo.com/codeep/note/163962）
 标签： Tutorial
 
 ---
