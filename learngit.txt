@@ -1,4 +1,5 @@
 廖雪峰 git 教程笔记
+git是一个由C语言编写的用于Linux内核开发的一种分布式版本控制系统。
 初始化当前库:git init:当前目录下会多一个.git的目录，如被隐藏，用ls -ah可见
 把文件从工作区添加到暂存区:git add <file>
 把所有暂存区中的文件提交到当前分支:git commit -m <message>------'-m'后面输入的是本次提交的说明，可以输入任意内容
@@ -23,9 +24,25 @@ git跟踪与管理的是修改，而非文件
 由于远程库是空的，我们第一次推送master分支时，加上了-u参数，git不但会吧本地的master分支内容推送到远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令，用git push origin master
 用远程库克隆一个本地库:git clone <https://...>/<SSH>
 git支持多种协议，包括https和ssh，通过ssh支持的原生git协议速度最快。使用https除了速度慢，而且每次推送都必须输入口令，而ssh通过公私钥可以不用。
-
-
-
-
-
+---分支---
+在git里，master叫主分支，HEAD指向当前分支。
+创建一个分支并切换到这个分支:git checkout -b <branchname>,相当于git branch <branchname> + git checkout <branchname> 
+查看当前分支:git branch,该命令会列出所有分支，当前分支前面会标一个*号
+切换到某一分支:git checkout <certain branch name>
+把某一分支合并到当前分支:git merge <branchname>,Fast-forward是“快进模式”，即直接将当前分支指向<branchname>的当前提交，速度很快。
+删除分支:git branch -d <branchname>
+创建并切换到新的分支也可以用switch:git switch -c <branchname>
+直接切换到已有分支:git switch <branchname>
+git log --graph 可以看到分支合并图
+在Fast forward模式下，删除分支后，会丢掉分支信息，看不出曾经合并过；强制禁用Fast forward模式，git就会在merge时生成一个新的commit。git switch -c skr,then 修改文件信息并commit，then git switch master,then git merge --no-ff -m "merge with no-ff" skr
+储藏工作区现场:git stash，用git stash list查看工作区现场
+恢复工作区现场有两个办法:1、用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；2、用git stash pop,恢复的同时也把stash内容删了
+你可以多次stash，恢复时，先用git stash list查看，然后恢复指定的stash,git stash apply astsh@{<stashid>}
+复制一个特定的提交到当前分支:git cherry-pick <commitid>
+强行删除一个分支(丢弃一个未被合并过的分支):git branch -D <branchname>
+查看远程库信息:git  remote <-v 'for more details'>没有推送权限，就会看不到push的地址
+推送分支，把该分支上所有本地提交推送到远程库:git push origin master，若要推送其他分支，比如skr，则git push origin skr
+假设多人协作远程库有master和skr分支，当在另一台电脑上从远程库克隆后只能看到本地的master分支。若要在skr分支上开发，就必须创建origin的skr分支到本地:git checkout -b origin/skr ;对同一文件的修改提交会产生冲突，可以先用git pull把最新的提交从origin/skr上抓下来，在本地合并，从而解决冲突;单单的git pull不能解决问题，因为没有指定本地skr分支与远程origin/skr的链接，设置链接:git branch --set-upstream-to=origin/skr skr ;git pull成功后，手动修改冲突再push
+---rebase变基---
+rebase的特点：把分支的提交历史“整理”成一条直线，看上去更直观，缺点是本地的分叉提交已经被修改过了。rebase可以把本地未push的分叉提交历史整理成直线，使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比(???)
 
