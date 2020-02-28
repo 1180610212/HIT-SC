@@ -46,7 +46,9 @@ git log --graph 可以看到分支合并图
 ---rebase变基---
 rebase的特点：把分支的提交历史“整理”成一条直线，看上去更直观，缺点是本地的分叉提交已经被修改过了。rebase可以把本地未push的分叉提交历史整理成直线，使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比
 learngitbranching上对rebase的解释:rebase实际上就是取出一系列的提交记录，“复制”他们，然后在另外一个地方逐个的放下去，优势就是可以创造更线性的提交记录。如果之允许使用rebase的话，代码库的提交历史将会变得异常清晰。
----撤销变更---
+------
+learngitbranching
+撤销变更--
 git reset 回到上一个提交
 git revert 建立一个新的提交来撤销当前提交，
 
@@ -62,3 +64,26 @@ git revert 建立一个新的提交来撤销当前提交，
 推送某个标签到远程:git push origin <label>
 一次性推送全部尚未推送到远程的本地标签:git push origiin --tags
 若标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除:git tag -d <label>,then git push origin :refs/tags/<label>
+
+------
+learngitbranching
+#移动提交记录,自由修改提交树
+##iit cherry-pick 
+git cherry-pick <commitid>，将一些提交复制到HEAD下面
+##交互式rebase
+当你知道你说需要的提交记录及其哈希值，用cherry-pick即可
+但如果你不清楚你想要的的提交记录的哈希值，可以使用交互式的rebase
+交互式rebase指的是使用带参数 --interactive的rebase命令，简写为 -i，git rebase -i HEAD~4
+#杂项，git技术、技巧与贴士大集合
+##本地栈式提交
+##提交的技巧#1
+##提交的技巧#2
+##git tags
+##git describe
+git describe可以用来描述离你最近的锚点（即标签tag），党你使用git bisect（一个查找产生bug的提交记录的指令）找到某个提交记录时，可能会用到这个命令。
+git describe <commitid> 
+
+#高级2-选择父提交记录:^2到另一父分支，~仅用于在无合并的路径上使用
+git branch bugwork HEAD~^2~
+#高级3
+git checkout two;git cherry-pick c5 c4 c3 c2;git checkout one;git cherry-pick c4 c3 c2;git branch -f three c2
